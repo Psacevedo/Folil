@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ATUA | Consultoría TI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════
+   TOKENS — LIGHT (default)
+════════════════════════════════ */
+:root {
+  --bg:       #f4f8ff;
+  --bg2:      #eef5ff;
+  --surface:  #ffffff;
+  --accent:   #2563eb;
+  --accent-h: #1d4ed8;
+  --accent2:  #7c3aed;
+  --pale:     #dbeafe;
+  --pale2:    #ede9fe;
+  --text:     #0f172a;
+  --muted:    #64748b;
+  --border:   rgba(37,99,235,.13);
+  --r:        10px;
+  --sh-s:     0 1px 8px rgba(37,99,235,.07);
+  --sh-m:     0 4px 24px rgba(37,99,235,.11);
+  --sh-l:     0 8px 48px rgba(37,99,235,.15);
+  /* backgrounds */
+  --nav-bg:   rgba(244,248,255,.93);
+  --nav-sc:   rgba(255,255,255,.98);
+  --mob-bg:   #ffffff;
+  --hero-bg:  linear-gradient(150deg,#eef5ff 0%,#e8f0fe 50%,#ede9fe 100%);
+  --cta-bg:   linear-gradient(150deg,#e8f2ff 0%,#ede9fe 100%);
+  --fade-l:   #eef5ff;
+  --glow:     rgba(37,99,235,.13);
+}
+
+/* ════════════════════════════════
+   TOKENS — DARK
+════════════════════════════════ */
+[data-theme="dark"] {
+  --bg:       #080c14;
+  --bg2:      #0d1220;
+  --surface:  #151e2e;
+  --accent:   #4f8ef7;
+  --accent-h: #638cf5;
+  --accent2:  #6366f1;
+  --pale:     rgba(79,142,247,.14);
+  --pale2:    rgba(99,102,241,.14);
+  --text:     #f0f4fc;
+  --muted:    #8896b0;
+  --border:   rgba(255,255,255,.08);
+  --sh-s:     0 1px 8px rgba(0,0,0,.3);
+  --sh-m:     0 4px 24px rgba(0,0,0,.45);
+  --sh-l:     0 8px 48px rgba(0,0,0,.6);
+  --nav-bg:   rgba(8,12,20,.85);
+  --nav-sc:   rgba(8,12,20,.98);
+  --mob-bg:   #0d1220;
+  --hero-bg:  linear-gradient(150deg,#080c14 0%,#0d1220 50%,#0f1629 100%);
+  --cta-bg:   linear-gradient(150deg,#0d1220 0%,#111827 100%);
+  --fade-l:   #0d1220;
+  --glow:     rgba(79,142,247,.14);
+}
+
+/* ════════════════════════════════
+   BASE
+════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+
+/* ════════════════════════════════
+   NAV
+════════════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:999;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 6%;height:64px;
+  background:var(--nav-bg);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s,box-shadow .3s;
+}
+nav.sc{background:var(--nav-sc);box-shadow:var(--sh-s)}
+
+.nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:.08em;color:var(--text);text-decoration:none}
+.nav-logo .dot{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.88rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-r{display:flex;align-items:center;gap:.8rem}
+
+.btn-nav{
+  padding:.42rem 1.1rem;border-radius:var(--r);
+  background:var(--accent);color:#fff;font-weight:600;font-size:.84rem;
+  text-decoration:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;
+  transition:background .2s,transform .2s;
+}
+.btn-nav:hover{background:var(--accent-h);transform:translateY(-1px)}
+
+/* theme toggle */
+.tog{
+  width:36px;height:36px;border-radius:50%;
+  background:var(--pale);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .2s,transform .2s;flex-shrink:0;
+}
+.tog:hover{background:var(--pale2);transform:scale(1.1)}
+.tog svg{width:16px;height:16px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.i-moon{display:block}
+.i-sun{display:none}
+[data-theme="dark"] .i-moon{display:none}
+[data-theme="dark"] .i-sun{display:block}
+
+/* hamburger */
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.hbg span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s}
+.hbg.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hbg.open span:nth-child(2){opacity:0}
+.hbg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+.mob-menu{
+  display:none;position:fixed;top:64px;left:0;right:0;
+  background:var(--mob-bg);border-bottom:1px solid var(--border);
+  padding:1.5rem 6%;z-index:998;
+}
+.mob-menu.open{display:flex;flex-direction:column;gap:1.1rem}
+.mob-menu a{color:var(--muted);text-decoration:none;font-size:1rem;font-weight:500;padding:.4rem 0;border-bottom:1px solid var(--border);transition:color .2s}
+.mob-menu a:last-child{border-bottom:none}
+.mob-menu a:hover{color:var(--text)}
+
+/* ════════════════════════════════
+   BUTTONS
+════════════════════════════════ */
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.7rem 1.5rem;border-radius:var(--r);
+  font-size:.9rem;font-weight:600;font-family:'Inter',sans-serif;
+  text-decoration:none;cursor:pointer;border:none;
+  white-space:nowrap;transition:all .2s;
+}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 2px 12px var(--glow)}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-2px);box-shadow:0 6px 22px var(--glow)}
+.btn-outline{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
+.btn-outline:hover{background:var(--pale);transform:translateY(-2px)}
+
+/* ════════════════════════════════
+   HERO
+════════════════════════════════ */
+#hero{
+  position:relative;min-height:100vh;
+  display:flex;align-items:center;
+  padding:80px 6% 60px;overflow:hidden;
+  background:var(--hero-bg);
+}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--border) 1px,transparent 1px),
+    linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:52px 52px;
+  mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 40%,transparent 100%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 50%,black 40%,transparent 100%);
+}
+.hero-glow{
+  position:absolute;top:-10%;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;pointer-events:none;
+  background:radial-gradient(ellipse,var(--glow) 0%,transparent 70%);
+}
+.hero-inner{
+  position:relative;z-index:1;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+  max-width:1200px;margin:0 auto;width:100%;
+}
+.hero-text{max-width:560px}
+
+.badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.73rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);background:rgba(79,142,247,.07);
+  border:1.5px solid rgba(79,142,247,.25);
+  padding:.3rem 1rem;border-radius:999px;margin-bottom:1.8rem;
+}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+#hero h1{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:clamp(2.4rem,5vw,4rem);
+  font-weight:800;line-height:1.08;letter-spacing:-.025em;
+  margin-bottom:1.3rem;color:var(--text);
+}
+.grad{
+  background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+[data-theme="dark"] .grad{
+  background:linear-gradient(135deg,#4f8ef7 0%,#818cf8 50%,#a78bfa 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+#hero p{color:var(--muted);font-size:1rem;margin-bottom:2.4rem;line-height:1.75;max-width:480px}
+.hero-btns{display:flex;gap:.8rem;flex-wrap:wrap}
+
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center}
+.hero-img-box{
+  position:relative;width:100%;max-width:520px;
+  border-radius:20px;overflow:hidden;
+  border:1.5px solid var(--border);
+  box-shadow:0 12px 60px var(--glow),0 2px 16px rgba(0,0,0,.08);
+}
+.hero-img-box img{width:100%;display:block}
+.hero-chip{
+  position:absolute;bottom:16px;left:16px;
+  background:rgba(255,255,255,.9);backdrop-filter:blur(12px);
+  border:1px solid var(--border);border-radius:10px;
+  padding:.6rem 1rem;display:flex;align-items:center;gap:.55rem;
+}
+[data-theme="dark"] .hero-chip{background:rgba(21,30,46,.9)}
+.chip-dot{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,.5)}
+.hero-chip span{font-size:.77rem;font-weight:600;color:var(--text)}
+
+/* ════════════════════════════════
+   STATS
+════════════════════════════════ */
+#stats{
+  background:var(--surface);
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:2rem 6%;
+}
+.stats-row{display:flex;justify-content:center;flex-wrap:wrap;max-width:760px;margin:0 auto}
+.stat{flex:1 1 140px;text-align:center;padding:.9rem 1.5rem;border-right:1px solid var(--border)}
+.stat:last-child{border-right:none}
+.stat-n{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:2rem;font-weight:800;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-l{font-size:.78rem;color:var(--muted);margin-top:.2rem;font-weight:500}
+
+/* ════════════════════════════════
+   MARQUEE
+════════════════════════════════ */
+#marquee-sec{background:var(--bg2);padding:52px 0;overflow:hidden}
+.mq-label{text-align:center;margin-bottom:1.8rem;font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.mq-wrap{position:relative;overflow:hidden}
+.mq-wrap::before,.mq-wrap::after{
+  content:'';position:absolute;top:0;bottom:0;width:90px;z-index:2;pointer-events:none;
+}
+.mq-wrap::before{left:0;background:linear-gradient(to right,var(--fade-l),transparent)}
+.mq-wrap::after{right:0;background:linear-gradient(to left,var(--fade-l),transparent)}
+.mq-track{display:flex;gap:1rem;width:max-content;animation:mq 30s linear infinite}
+.mq-track:hover{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mq-card{width:290px;height:180px;flex-shrink:0;border-radius:12px;overflow:hidden;border:1.5px solid var(--border);position:relative}
+.mq-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.mq-card:hover img{transform:scale(1.05)}
+.mq-cap{position:absolute;bottom:0;left:0;right:0;padding:.5rem .9rem;background:linear-gradient(to top,rgba(10,15,30,.6),transparent);color:#fff;font-size:.74rem;font-weight:600}
+
+/* ════════════════════════════════
+   SECTIONS
+════════════════════════════════ */
+.sec{padding:100px 6%}
+.sec-alt{background:var(--bg2)}
+.sec-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);background:rgba(79,142,247,.08);border:1px solid rgba(79,142,247,.2);padding:.22rem .85rem;border-radius:999px;margin-bottom:.75rem}
+.sec-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.7rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.02em;line-height:1.15;color:var(--text);margin-bottom:.75rem}
+.sec-sub{color:var(--muted);max-width:460px;margin-bottom:2.8rem;font-size:.95rem}
+
+/* ════════════════════════════════
+   CAROUSEL (CSS scroll-snap)
+════════════════════════════════ */
+.car-outer{position:relative}
+.car-scroll{
+  display:flex;gap:1.2rem;
+  overflow-x:auto;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  padding-bottom:4px;
+}
+.car-scroll::-webkit-scrollbar{display:none}
+
+/* service cards — 3-up on desktop */
+.svc-card{
+  flex:0 0 calc(33.333% - .8rem);min-width:280px;
+  scroll-snap-align:start;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.svc-card:hover{transform:translateY(-5px);box-shadow:var(--sh-l);border-color:rgba(79,142,247,.35)}
+.svc-card img{width:100%;height:190px;object-fit:cover;display:block}
+.svc-body{padding:1.4rem 1.3rem}
+.svc-ico{width:38px;height:38px;background:var(--pale);border:1px solid rgba(79,142,247,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:.85rem}
+.svc-ico svg{width:19px;height:19px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.svc-card h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:.35rem}
+.svc-card p{color:var(--muted);font-size:.83rem;line-height:1.7}
+
+/* tech slides — 2-up */
+.tech-slide{
+  flex:0 0 calc(50% - .6rem);min-width:280px;
+  scroll-snap-align:start;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;
+  transition:transform .3s,box-shadow .3s;
+}
+.tech-slide:hover{transform:translateY(-4px);box-shadow:var(--sh-l)}
+.ts-img{overflow:hidden;height:220px}
+.ts-img img{width:100%;height:100%;object-fit:cover;display:block}
+.ts-body{padding:1.6rem 1.4rem;display:flex;flex-direction:column;justify-content:center}
+.ts-body h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:.45rem}
+.ts-body p{font-size:.83rem;color:var(--muted);line-height:1.65}
+
+/* controls */
+.car-ctrls{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-top:1.6rem}
+.car-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--surface);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;box-shadow:var(--sh-s);flex-shrink:0;
+}
+.car-btn:hover{background:var(--pale);border-color:var(--accent);transform:scale(1.06)}
+.car-btn svg{width:17px;height:17px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.car-dots{display:flex;gap:.4rem}
+.cdot{width:7px;height:7px;border-radius:999px;background:var(--border);border:none;cursor:pointer;padding:0;transition:all .25s}
+.cdot.on{background:var(--accent);width:20px}
+
+/* ════════════════════════════════
+   TEAM
+════════════════════════════════ */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem}
+.member{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:14px;padding:2rem 1.6rem;text-align:center;
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+}
+.member:hover{transform:translateY(-5px);box-shadow:var(--sh-l);border-color:rgba(79,142,247,.35)}
+.av-wrap{position:relative;width:72px;height:72px;margin:0 auto 1.1rem}
+.av-ring{position:absolute;inset:-3px;border-radius:50%;background:linear-gradient(135deg,#93c5fd,#a78bfa);opacity:.6;transition:opacity .3s}
+.member:hover .av-ring{opacity:1}
+.av-ring-in{width:100%;height:100%;border-radius:50%;background:var(--surface)}
+.av{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,var(--pale),var(--pale2));color:var(--accent)}
+.member h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:.94rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.member .role{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.55rem}
+.member .bio{font-size:.83rem;color:var(--muted);line-height:1.6}
+
+/* ════════════════════════════════
+   CONTACT
+════════════════════════════════ */
+#contacto{
+  background:var(--cta-bg);text-align:center;
+  position:relative;overflow:hidden;padding:100px 6%;
+}
+.cta-glow{position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,var(--glow),transparent 70%);pointer-events:none}
+.cta-box{
+  position:relative;z-index:1;display:inline-block;
+  background:var(--surface);border:1.5px solid rgba(79,142,247,.18);
+  border-radius:18px;padding:2.8rem 3rem;
+  max-width:480px;width:100%;box-shadow:var(--sh-m);
+}
+.cta-box p{color:var(--muted);font-size:.9rem;margin-bottom:1.5rem}
+.btn-cta{
+  display:inline-flex;align-items:center;gap:.55rem;
+  padding:.7rem 1.8rem;border-radius:var(--r);
+  background:var(--accent);color:#fff;text-decoration:none;
+  font-weight:600;font-size:.9rem;font-family:'Inter',sans-serif;
+  box-shadow:0 2px 12px var(--glow);transition:background .2s,transform .2s,box-shadow .2s;
+}
+.btn-cta:hover{background:var(--accent-h);transform:translateY(-2px);box-shadow:0 6px 22px var(--glow)}
+.btn-cta svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.div-line{display:flex;align-items:center;gap:1rem;margin:1.3rem 0;color:var(--muted);font-size:.78rem}
+.div-line::before,.div-line::after{content:'';flex:1;height:1px;background:var(--border)}
+.cta-email{font-size:.9rem;color:var(--muted)}
+.cta-email a{color:var(--accent);text-decoration:none;font-weight:500}
+.cta-email a:hover{text-decoration:underline}
+
+/* ════════════════════════════════
+   FOOTER
+════════════════════════════════ */
+footer{
+  border-top:1px solid var(--border);padding:1.8rem 6%;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  background:var(--surface);
+}
+.ft-logo{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.08em;color:var(--text)}
+.ft-logo .dot{color:var(--accent)}
+footer small{font-size:.8rem;color:var(--muted)}
+
+/* ════════════════════════════════
+   RESPONSIVE
+════════════════════════════════ */
+@media(max-width:960px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-visual{display:none}
+  .svc-card{flex:0 0 calc(50% - .6rem)}
+  .tech-slide{flex:0 0 calc(75vw);grid-template-columns:1fr}
+  .ts-img{height:160px}
+}
+@media(max-width:680px){
+  .nav-links{display:none}
+  .hbg{display:flex}
+  .sec{padding:72px 5%}
+  #hero{padding:80px 5% 60px}
+  #stats{padding:1.8rem 5%}
+  nav,footer{padding-left:5%;padding-right:5%}
+  .stat{border-right:none;border-bottom:1px solid var(--border)}
+  .stat:last-child{border-bottom:none}
+  .cta-box{padding:2rem 1.4rem}
+  .svc-card{flex:0 0 82vw}
+  .tech-slide{flex:0 0 88vw}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">ATU<span class="dot">A</span></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#tecnologias">Tecnología</a></li>
+    <li><a href="#socios">Equipo</a></li>
+  </ul>
+  <div class="nav-r">
+    <button class="tog" id="tog" aria-label="Cambiar tema">
+      <svg class="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="i-sun"  viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="#contacto" class="btn-nav">Contactar</a>
+    <button class="hbg" id="hbg" aria-label="Menú"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mob-menu" id="mob">
+  <a href="#servicios"   onclick="closeMob()">Servicios</a>
+  <a href="#tecnologias" onclick="closeMob()">Tecnología</a>
+  <a href="#socios"      onclick="closeMob()">Equipo</a>
+  <a href="#contacto"    onclick="closeMob()">Contactar</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="badge"><span class="badge-dot"></span>Consultoría Tecnológica</div>
+      <h1>Tecnología que<br><span class="grad">transforma</span><br>organizaciones</h1>
+      <p>Productos, implementaciones y asesoría TI especializada para empresas que buscan crecer con inteligencia tecnológica.</p>
+      <div class="hero-btns">
+        <a href="#servicios" class="btn btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          Ver servicios
+        </a>
+        <a href="#socios" class="btn btn-outline">Conocer el equipo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-box">
+        <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=800&q=80" alt="IA"/>
+        <div class="hero-chip">
+          <span class="chip-dot"></span>
+          <span>Soluciones activas 24/7</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div id="stats">
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n">4</div><div class="stat-l">Socios fundadores</div></div>
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Años de experiencia</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Áreas de servicio</div></div>
+    <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Enfoque en resultados</div></div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div id="marquee-sec">
+  <p class="mq-label">Tecnología · IA · Software · Cloud · Datos</p>
+  <div class="mq-wrap">
+    <div class="mq-track">
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Hardware &amp; Circuitos</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Análisis de Datos</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Data Centers</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Desarrollo de Software</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Inteligencia Artificial</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Conectividad Global</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Cloud Computing</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Automatización</span></div>
+      <!-- loop duplicate -->
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Hardware &amp; Circuitos</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Análisis de Datos</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Data Centers</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Desarrollo de Software</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Inteligencia Artificial</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Conectividad Global</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Cloud Computing</span></div>
+      <div class="mq-card"><img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=360&q=70" alt=""/><span class="mq-cap">Automatización</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios" class="sec">
+  <span class="sec-tag">Lo que hacemos</span>
+  <h2 class="sec-title">Servicios &amp; Productos</h2>
+  <p class="sec-sub">Soluciones integrales en TI para los desafíos reales de tu organización.</p>
+  <div class="car-outer">
+    <div class="car-scroll" id="svcScroll">
+      <div class="svc-card">
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=75" alt="Productos TI"/>
+        <div class="svc-body">
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <h3>Productos TI</h3>
+          <p>Desarrollo y comercialización de soluciones de software propias, adaptadas a industrias específicas.</p>
+        </div>
+      </div>
+      <div class="svc-card">
+        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=600&q=75" alt="Consultoría"/>
+        <div class="svc-body">
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+          <h3>Consultoría TI</h3>
+          <p>Asesoría estratégica para arquitectura, transformación digital y gobierno de TI.</p>
+        </div>
+      </div>
+      <div class="svc-card">
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=75" alt="Desarrollo"/>
+        <div class="svc-body">
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <h3>Desarrollo a Medida</h3>
+          <p>Sistemas e integraciones diseñados para los procesos únicos de tu empresa.</p>
+        </div>
+      </div>
+      <div class="svc-card">
+        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=75" alt="Cloud"/>
+        <div class="svc-body">
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+          <h3>Infraestructura &amp; Cloud</h3>
+          <p>Diseño, migración y gestión de infraestructura en la nube de alta disponibilidad.</p>
+        </div>
+      </div>
+      <div class="svc-card">
+        <img src="https://images.unsplash.com/photo-1677442135703-1787eea5ce01?auto=format&fit=crop&w=600&q=75" alt="IA"/>
+        <div class="svc-body">
+          <div class="svc-ico"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+          <h3>IA &amp; Automatización</h3>
+          <p>Soluciones de machine learning e IA aplicadas a procesos reales de negocio.</p>
+        </div>
+      </div>
+    </div>
+    <div class="car-ctrls">
+      <button class="car-btn" onclick="scroll('svcScroll',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="car-dots" id="svcDots"></div>
+      <button class="car-btn" onclick="scroll('svcScroll',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- TECNOLOGÍAS -->
+<section id="tecnologias" class="sec sec-alt">
+  <span class="sec-tag">Nuestro enfoque</span>
+  <h2 class="sec-title">Áreas de especialización</h2>
+  <p class="sec-sub">Combinamos experiencia técnica con visión de negocio para entregar valor real.</p>
+  <div class="car-outer">
+    <div class="car-scroll" id="techScroll">
+      <div class="tech-slide">
+        <div class="ts-img"><img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=400&q=75" alt="IA"/></div>
+        <div class="ts-body"><h3>IA y Machine Learning</h3><p>Modelos predictivos, NLP y visión computacional integrados a flujos productivos.</p></div>
+      </div>
+      <div class="tech-slide">
+        <div class="ts-img"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=400&q=75" alt="Cloud"/></div>
+        <div class="ts-body"><h3>Cloud &amp; DevOps</h3><p>Arquitecturas en AWS, Azure y GCP con pipelines CI/CD y monitoreo en tiempo real.</p></div>
+      </div>
+      <div class="tech-slide">
+        <div class="ts-img"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=400&q=75" alt="Data"/></div>
+        <div class="ts-body"><h3>Data &amp; Analytics</h3><p>Pipelines de datos y dashboards ejecutivos para decisiones basadas en evidencia.</p></div>
+      </div>
+      <div class="tech-slide">
+        <div class="ts-img"><img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?auto=format&fit=crop&w=400&q=75" alt="RPA"/></div>
+        <div class="ts-body"><h3>Automatización RPA</h3><p>Robots de proceso que eliminan tareas manuales y liberan tiempo para lo estratégico.</p></div>
+      </div>
+    </div>
+    <div class="car-ctrls">
+      <button class="car-btn" onclick="scroll('techScroll',-1)"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="car-dots" id="techDots"></div>
+      <button class="car-btn" onclick="scroll('techScroll',1)"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIOS -->
+<section id="socios" class="sec">
+  <span class="sec-tag">El equipo</span>
+  <h2 class="sec-title">Los Socios</h2>
+  <p class="sec-sub">Un equipo multidisciplinario con sólida experiencia en ingeniería, negocios y tecnología.</p>
+  <div class="team-grid">
+    <div class="member">
+      <div class="av-wrap"><div class="av-ring"><div class="av-ring-in"></div></div><div class="av">PA</div></div>
+      <h3>Patricio Acevedo</h3><p class="role">Socio Fundador</p>
+      <p class="bio">Ingeniería y estrategia TI. Impulsor de la visión tecnológica de ATUA.</p>
+    </div>
+    <div class="member">
+      <div class="av-wrap"><div class="av-ring"><div class="av-ring-in"></div></div><div class="av">SR</div></div>
+      <h3>Simón Rojas Ríos</h3><p class="role">Socio</p>
+      <p class="bio">Desarrollo de productos y tecnología. Especialista en arquitectura de software.</p>
+    </div>
+    <div class="member">
+      <div class="av-wrap"><div class="av-ring"><div class="av-ring-in"></div></div><div class="av">NM</div></div>
+      <h3>Nicolás Medel</h3><p class="role">Socio</p>
+      <p class="bio">Consultoría y procesos de negocio. Experto en transformación digital.</p>
+    </div>
+    <div class="member">
+      <div class="av-wrap"><div class="av-ring"><div class="av-ring-in"></div></div><div class="av">AN</div></div>
+      <h3>Álvaro Navarrete</h3><p class="role">Socio</p>
+      <p class="bio">Infraestructura y operaciones. Especialista en cloud y alta disponibilidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="cta-glow"></div>
+  <span class="sec-tag">Hablemos</span>
+  <h2 class="sec-title">¿Tienes un proyecto<br>en mente?</h2>
+  <p class="sec-sub" style="margin:0 auto 2.5rem">Cuéntanos tu desafío y exploremos cómo la tecnología puede impulsar tu organización.</p>
+  <div class="cta-box">
+    <p>Estamos disponibles para evaluar tu proyecto sin compromiso.</p>
+    <a href="mailto:Psacevedo@uc.cl" class="btn-cta">
+      <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Escribir al equipo
+    </a>
+    <div class="div-line">o directamente</div>
+    <p class="cta-email"><a href="mailto:Psacevedo@uc.cl">Psacevedo@uc.cl</a></p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="ft-logo">ATU<span class="dot">A</span></span>
+  <small>© 2026 ATUA Consultoría TI · Todos los derechos reservados.</small>
+</footer>
+
+<script>
+/* ── THEME ── */
+const root = document.documentElement;
+const togBtn = document.getElementById('tog');
+try { const s = localStorage.getItem('atua-t'); if(s) root.setAttribute('data-theme',s); } catch(e){}
+togBtn.addEventListener('click', () => {
+  const dark = root.getAttribute('data-theme') === 'dark';
+  const next = dark ? 'light' : 'dark';
+  root.setAttribute('data-theme', next);
+  try { localStorage.setItem('atua-t', next); } catch(e){}
+});
+
+/* ── NAV SCROLL ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('sc', window.scrollY > 20));
+
+/* ── HAMBURGER ── */
+const hbg = document.getElementById('hbg');
+const mob = document.getElementById('mob');
+hbg.addEventListener('click', () => {
+  hbg.classList.toggle('open');
+  mob.classList.toggle('open');
+});
+function closeMob() {
+  hbg.classList.remove('open');
+  mob.classList.remove('open');
+}
+
+/* ── CAROUSEL (scroll-based) ── */
+function scroll(id, dir) {
+  const el = document.getElementById(id);
+  const card = el.querySelector('.svc-card, .tech-slide');
+  if (!card) return;
+  const w = card.getBoundingClientRect().width + 19;
+  el.scrollBy({ left: dir * w, behavior: 'smooth' });
+}
+
+/* dots sync */
+function setupDots(scrollId, dotsId) {
+  const el = document.getElementById(scrollId);
+  const dc = document.getElementById(dotsId);
+  if (!el || !dc) return;
+
+  function build() {
+    const card = el.querySelector('.svc-card, .tech-slide');
+    if (!card) return;
+    const cardW = card.getBoundingClientRect().width + 19;
+    const total = el.children.length;
+    const vis = Math.round(el.clientWidth / cardW) || 1;
+    const steps = Math.max(1, total - vis + 1);
+    dc.innerHTML = '';
+    for (let i = 0; i < steps; i++) {
+      const d = document.createElement('button');
+      d.className = 'cdot' + (i === 0 ? ' on' : '');
+      d.addEventListener('click', () => {
+        el.scrollTo({ left: i * cardW, behavior: 'smooth' });
+      });
+      dc.appendChild(d);
+    }
+  }
+
+  function sync() {
+    const card = el.querySelector('.svc-card, .tech-slide');
+    if (!card) return;
+    const cardW = card.getBoundingClientRect().width + 19;
+    const idx = Math.round(el.scrollLeft / cardW);
+    dc.querySelectorAll('.cdot').forEach((d, i) => d.classList.toggle('on', i === idx));
+  }
+
+  build();
+  el.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', () => { build(); sync(); });
+}
+
+setupDots('svcScroll',  'svcDots');
+setupDots('techScroll', 'techDots');
+</script>
+</body>
+</html>
